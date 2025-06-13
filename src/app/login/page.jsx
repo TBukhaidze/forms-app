@@ -39,7 +39,7 @@ export default function LoginPage() {
           setError(result.error);
         }
       } else {
-        router.push("/dashboard");
+        router.push("/profile");
       }
     } catch (error) {
       console.error("Login error:", error);

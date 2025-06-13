@@ -13,30 +13,30 @@ export const authOptions = {
       },
       async authorize(credentials) {
         try {
-          if (!credentials?.email || !credentials.password) return null;
+          if (!credentials?.email || !credentials.password) {
+            throw new Error("Email and password are required");
+          }
 
           const user = await prisma.user.findUnique({
             where: { email: credentials.email },
           });
 
           if (!user) {
-            console.log("User not found:", credentials.email);
-            return null;
+            throw new Error("User not found");
           }
 
           if (user.isBlocked) {
-            console.log("User blocked:", credentials.email);
-            return null;
+            throw new Error("User account is blocked");
           }
 
+          // Проверка пароля
           const isValid = await bcrypt.compare(
             credentials.password,
             user.password
           );
 
           if (!isValid) {
-            console.log("Invalid password for:", credentials.email);
-            return null;
+            throw new Error("Invalid password");
           }
 
           return {
@@ -46,8 +46,8 @@ export const authOptions = {
             isBlocked: user.isBlocked,
           };
         } catch (error) {
-          console.error("Authorization error:", error);
-          return null;
+          console.error("Authorization error:", error.message);
+          throw new Error(error.message || "Authentication failed");
         }
       },
     }),
