@@ -1,0 +1,11 @@
+{
+  "Header": {
+    "home": "FormBuilder",
+    "dashboard": "Dashboard",
+    "signOut": "Sign Out",
+    "login": "Login",
+    "register": "Register",
+    "darkMode": "Dark Mode",
+    "lightMode": "Light Mode"
+  }
+}
